@@ -13,6 +13,7 @@ namespace rendering
 		bool initialized = false;
 
 	public:
+		GraphicsSystem() = default;
 		GraphicsSystem(const GraphicsSystem&) = delete;
 		GraphicsSystem(const GraphicsSystem&&) = delete;
 		GraphicsSystem& operator = (const GraphicsSystem&) = delete;

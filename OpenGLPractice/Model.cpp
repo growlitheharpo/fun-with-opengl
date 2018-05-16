@@ -17,6 +17,8 @@ void Model::initialize(const std::vector<rendering::VertexFormat>& vertices)
 	glVertexAttribPointer(Attr_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(VertexFormat), nullptr);
 	glEnableVertexAttribArray(Attr_COLOR);
 	glVertexAttribPointer(Attr_COLOR, 4, GL_FLOAT, GL_FALSE, sizeof(VertexFormat), (void*)(sizeof(float) * 3));
+
+	vertexCount_ = vertices.size();
 }
 
 void Model::release()

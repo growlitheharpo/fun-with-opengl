@@ -22,7 +22,6 @@ void rendering::GraphicsSystem::initialize()
 	glutCreateWindow("OpenGL Window");
 
 	glewInit();
-	glewInit();
 	DEBUG_IF_ELSE(glewIsSupported("GL_VERSION_4_4"),
 		LOG("GLEW Version is 4.4."),
 		LOG_ERR("GLEW 4.4 is not supported!"));

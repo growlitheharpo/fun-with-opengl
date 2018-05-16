@@ -12,5 +12,7 @@ namespace rendering
 
 		ShaderProgram const* program;
 		Model model;
+		
+		void draw() const;
 	};
 }

@@ -9,6 +9,8 @@ private:
 	std::vector<GLuint> vbos_;
 	GLuint vao_ = 0;
 
+	int vertexCount_;
+
 public:
 	Model() = default;
 	Model(const Model&) = default;
@@ -21,6 +23,7 @@ public:
 	void initialize(const std::vector<rendering::VertexFormat>& vertices);
 	void release();
 
+	int vertexCount() const { return vertexCount_; };
 	void activate() const;
 
 	static Model create_debug_triangle();

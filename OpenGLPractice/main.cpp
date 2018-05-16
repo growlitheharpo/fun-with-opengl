@@ -3,17 +3,18 @@
 #include "Logging.h"
 #include "ShaderProgram.h"
 #include "Model.h"
+#include "GraphicsSystem.h"
+#include "GameObject.h"
+#include "RendererComponent.h"
 
-Model triangle_model;
+rendering::RendererComponent* renderer;
 
 void renderScene(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
-	//triangle_model.activate();
-	//glUseProgram(triangle_program);
-	//glDrawArrays(GL_TRIANGLES, 0, 3);
+	renderer->draw();
 
 	glutSwapBuffers();
 }
@@ -24,38 +25,38 @@ void close()
 	glutLeaveMainLoop();
 }
 
-void init()
+void loadTriangleProgram(rendering::GraphicsSystem& gSystem)
 {
-	glEnable(GL_DEPTH_TEST);
+	rendering::ShaderProgram::LoadInfo v, f;
 
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	v.type = GL_VERTEX_SHADER;
+	v.filename = "Shaders\\vertex.glsl";
+	v.name = "Triangle Vertex";
+
+	f.type = GL_FRAGMENT_SHADER;
+	f.filename = "Shaders\\frag.glsl";
+	f.name = "Triangle Frag";
+
+	gSystem.load_shader("Triangle", { v, f });
 }
 
 int main(int argc, char **argv)
 {
-	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
-	glutInitWindowPosition(200, 200);
-	glutInitWindowSize(800, 600);
-	glutCreateWindow("OpenGL First Window");
+	rendering::GraphicsSystem gSystem;
+	gSystem.initialize();
 
-	glewInit();
-	DEBUG_IF_ELSE(glewIsSupported("GL_VERSION_4_4"),
-		LOG("GLEW Version is 4.4."),
-		LOG_ERR("GLEW 4.4 is not supported!"));
+	loadTriangleProgram(gSystem);
 
-	init();
+	core::GameObject triGo;
+	renderer = new rendering::RendererComponent(&triGo);
+	triGo.add_component(renderer);
+
+	renderer->program = gSystem.get_program("Triangle");
+	renderer->model = Model::create_debug_triangle();
 
 	glutDisplayFunc(renderScene);
-
-	// *****
-	// glut main loop holds until we're done
+	glutCloseFunc(close);
 	glutMainLoop();
-	//
-	// *****
-
-	triangle_model.release();
-	//glDeleteProgram(triangle_program);
 
 	return 0;
 }
