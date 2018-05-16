@@ -18,7 +18,7 @@ public:
 	Model& operator = (const Model& other) = default;
 	Model& operator = (Model&& other) = default;
 
-	void initialize(const std::vector<graphics::VertexFormat>& vertices);
+	void initialize(const std::vector<rendering::VertexFormat>& vertices);
 	void release();
 
 	void activate() const;

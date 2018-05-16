@@ -12,19 +12,34 @@
     <Filter Include="Resource Files\Shaders">
       <UniqueIdentifier>{a4ca1c3e-a978-40e0-9e20-7c3546b7a7d5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\GraphicsData">
+    <Filter Include="Source Files\Core">
+      <UniqueIdentifier>{1c4057b8-62a1-4f91-8763-84b31b815a05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Rendering">
       <UniqueIdentifier>{919e52ee-887b-4814-85f4-fcc0200b2293}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Rendering\Data">
+      <UniqueIdentifier>{e15fa296-1869-4c1b-8479-fc55d88dc7a3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
     <ClCompile Include="ShaderProgram.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Rendering\Data</Filter>
     </ClCompile>
     <ClCompile Include="Model.cpp">
-      <Filter>Source Files\GraphicsData</Filter>
+      <Filter>Source Files\Rendering\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsSystem.cpp">
+      <Filter>Source Files\Rendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -38,16 +53,25 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logging.h">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Source Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Source Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="ShaderProgram.h">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Rendering\Data</Filter>
     </ClInclude>
     <ClInclude Include="VertexFormat.h">
-      <Filter>Source Files\GraphicsData</Filter>
+      <Filter>Source Files\Rendering\Data</Filter>
     </ClInclude>
     <ClInclude Include="Model.h">
-      <Filter>Source Files\GraphicsData</Filter>
+      <Filter>Source Files\Rendering\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsSystem.h">
+      <Filter>Source Files\Rendering</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

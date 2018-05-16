@@ -2,7 +2,7 @@
 #include <fstream>
 #include "Logging.h"
 
-using namespace graphics;
+using namespace rendering;
 
 std::string ShaderProgram::read_shader(const char* filename)
 {
@@ -50,18 +50,21 @@ GLuint ShaderProgram::create_shader(GLenum shaderType, const std::string& source
 	return shader;
 }
 
-GLuint ShaderProgram::createProgram(const char* vertexShaderFile, const char* fragmentShaderFile)
+GLuint ShaderProgram::createProgram(const std::vector<LoadInfo>& info)
 {
-	std::string vertex_code = read_shader(vertexShaderFile);
-	std::string frag_code = read_shader(fragmentShaderFile);
+	std::vector<GLuint> programs;
+	programs.reserve(info.size());
 
-	GLuint vertex = create_shader(GL_VERTEX_SHADER, vertex_code, "vertex shader");
-	GLuint frag = create_shader(GL_FRAGMENT_SHADER, frag_code, "fragment shader");
+	for (const auto& shader: info)
+	{
+		const std::string code = read_shader(shader.filename);
+		programs.push_back(create_shader(shader.type, code, shader.name));
+	}
 
 	int link_result = 0;
 	program_ = glCreateProgram();
-	glAttachShader(program_, vertex);
-	glAttachShader(program_, frag);
+	for (const auto& shader : programs)
+		glAttachShader(program_, shader);
 	glLinkProgram(program_);
 
 	glGetProgramiv(program_, GL_LINK_STATUS, &link_result);
@@ -78,4 +81,15 @@ GLuint ShaderProgram::createProgram(const char* vertexShaderFile, const char* fr
 	}
 
 	return program_;
+}
+
+void ShaderProgram::cleanup()
+{
+	glDeleteProgram(program_);
+	program_ = 0;
+}
+
+void ShaderProgram::activate() const
+{
+	glUseProgram(program_);
 }

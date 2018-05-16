@@ -3,18 +3,18 @@
 #include "Logging.h"
 #include "ShaderProgram.h"
 #include "Model.h"
+#include "GameObject.h"
 
-GLuint triangle_program;
 Model triangle_model;
 
 void renderScene(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(1.0, 0.0, 0.0, 1.0);
+	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
-	triangle_model.activate();
-	glUseProgram(triangle_program);
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	//triangle_model.activate();
+	//glUseProgram(triangle_program);
+	//glDrawArrays(GL_TRIANGLES, 0, 3);
 
 	glutSwapBuffers();
 }
@@ -31,8 +31,6 @@ void init()
 
 	triangle_model = Model::create_debug_triangle();
 
-	graphics::ShaderProgram program;
-	triangle_program = program.createProgram("Shaders\\vertex.glsl", "Shaders\\frag.glsl");
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
@@ -60,7 +58,7 @@ int main(int argc, char **argv)
 	// *****
 
 	triangle_model.release();
-	glDeleteProgram(triangle_program);
+	//glDeleteProgram(triangle_program);
 
 	return 0;
 }

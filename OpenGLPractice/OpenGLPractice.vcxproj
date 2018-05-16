@@ -116,6 +116,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Component.cpp" />
+    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GraphicsSystem.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
@@ -126,6 +129,9 @@
     <None Include="Shaders\vertex.glsl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Component.h" />
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GraphicsSystem.h" />
     <ClInclude Include="Logging.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="ShaderProgram.h" />
