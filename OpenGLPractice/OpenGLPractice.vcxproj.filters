@@ -41,6 +41,9 @@
     <ClCompile Include="GraphicsSystem.cpp">
       <Filter>Source Files\Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="RendererComponent.cpp">
+      <Filter>Source Files\Rendering\Data</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -72,6 +75,9 @@
     </ClInclude>
     <ClInclude Include="GraphicsSystem.h">
       <Filter>Source Files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="RendererComponent.h">
+      <Filter>Source Files\Rendering\Data</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

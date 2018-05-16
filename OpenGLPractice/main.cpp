@@ -3,7 +3,6 @@
 #include "Logging.h"
 #include "ShaderProgram.h"
 #include "Model.h"
-#include "GameObject.h"
 
 Model triangle_model;
 
@@ -28,8 +27,6 @@ void close()
 void init()
 {
 	glEnable(GL_DEPTH_TEST);
-
-	triangle_model = Model::create_debug_triangle();
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }

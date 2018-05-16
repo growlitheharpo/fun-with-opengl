@@ -14,7 +14,6 @@ namespace core
 
 	public:
 		virtual ~Component() = default;
-
 		const GameObject& GetGameObject() const { return *attached_go_; }
 	};
 }
