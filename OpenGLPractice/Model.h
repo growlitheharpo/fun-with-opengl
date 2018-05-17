@@ -27,4 +27,5 @@ public:
 	void activate() const;
 
 	static Model create_debug_triangle();
+	static Model create_debug_cube();
 };
