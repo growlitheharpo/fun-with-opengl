@@ -8,6 +8,8 @@ namespace core
 	{
 	private:
 	public:
-		glm::mat4x4 transform;
+		Transform();
+
+		glm::mat4 transform;
 	};
 }
