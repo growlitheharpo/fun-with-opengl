@@ -5,14 +5,22 @@
 
 namespace core
 {
+	class Transform;
+
 	class GameObject
 	{
 	private:
 		std::vector<Component*> components_;
+		Transform* transform_;
 
 	public:
+		GameObject();
+		~GameObject();
+
 		template<typename T>
 		T* addComponent(T* c);
+
+		Transform const& transform() const { return *transform_; }
 	};
 
 

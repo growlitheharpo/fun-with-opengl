@@ -123,6 +123,7 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="RendererComponent.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
+    <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -137,6 +138,7 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="RendererComponent.h" />
     <ClInclude Include="ShaderProgram.h" />
+    <ClInclude Include="Transform.h" />
     <ClInclude Include="VertexFormat.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
