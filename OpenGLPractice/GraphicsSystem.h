@@ -1,16 +1,17 @@
 ﻿#pragma once
 #include <vector>
 #include "ShaderProgram.h"
-#include <unordered_map>
+#include <map>
 
 namespace rendering
 {
 	class GraphicsSystem
 	{
 	private:
-		std::unordered_map<std::string, ShaderProgram> shaders;
+		std::vector<ShaderProgram> shaders_;
+		std::map<std::string, ShaderProgram::shader_id> shader_names_;
 
-		bool initialized = false;
+		bool initialized_ = false;
 
 	public:
 		GraphicsSystem() = default;
@@ -22,8 +23,8 @@ namespace rendering
 		~GraphicsSystem();
 
 		void initialize();
-		void load_shader(const std::string& program_name, const std::vector<ShaderProgram::LoadInfo>& load_info);
+		ShaderProgram::shader_id loadShader(const std::string& program_name, const std::vector<ShaderProgram::LoadInfo>& load_info);
 
-		ShaderProgram const* get_program(const std::string& name) const;
+		ShaderProgram::shader_id getProgramId(const std::string& name) const;
 	};
 }

@@ -37,7 +37,7 @@ void loadTriangleProgram(rendering::GraphicsSystem& gSystem)
 	f.filename = "Shaders\\frag.glsl";
 	f.name = "Triangle Frag";
 
-	gSystem.load_shader("Triangle", { v, f });
+	gSystem.loadShader("Triangle", { v, f });
 }
 
 int main(int argc, char **argv)

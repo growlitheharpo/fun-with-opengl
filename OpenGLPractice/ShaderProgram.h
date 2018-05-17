@@ -17,8 +17,13 @@ namespace rendering
 			const char* name;
 		};
 
+		typedef std::vector<ShaderProgram>::size_type shader_id;
+
 	private:
+		explicit ShaderProgram(shader_id id);
+
 		GLuint program_ = 0;
+		shader_id id_;
 
 		static std::string read_shader(const char* filename);
 		static GLuint create_shader(GLenum shaderType, const std::string& source, const char* shaderName);
@@ -28,5 +33,7 @@ namespace rendering
 
 	public:
 		void activate() const;
+
+		shader_id get_id() const { return id_; }
 	};
 }
