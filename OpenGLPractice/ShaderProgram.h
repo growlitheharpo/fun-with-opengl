@@ -20,7 +20,6 @@ namespace rendering
 		typedef std::vector<ShaderProgram>::size_type shader_id;
 
 	private:
-		explicit ShaderProgram(shader_id id);
 
 		GLuint program_ = 0;
 		shader_id id_;
@@ -32,6 +31,7 @@ namespace rendering
 		void cleanup();
 
 	public:
+		explicit ShaderProgram(shader_id id);
 		void activate() const;
 
 		shader_id get_id() const { return id_; }

@@ -4,6 +4,11 @@
 
 using namespace rendering;
 
+ShaderProgram::ShaderProgram(shader_id id)
+{
+	id_ = id;
+}
+
 std::string ShaderProgram::read_shader(const char* filename)
 {
 	std::string shaderCode;

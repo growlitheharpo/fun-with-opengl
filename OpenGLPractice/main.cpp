@@ -7,14 +7,14 @@
 #include "GameObject.h"
 #include "RendererComponent.h"
 
-rendering::RendererComponent* renderer;
+rendering::GraphicsSystem gSystem;
 
 void renderScene(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
-	renderer->draw();
+	gSystem.render();
 
 	glutSwapBuffers();
 }
@@ -25,7 +25,7 @@ void close()
 	glutLeaveMainLoop();
 }
 
-void loadTriangleProgram(rendering::GraphicsSystem& gSystem)
+void loadTriangleProgram()
 {
 	rendering::ShaderProgram::LoadInfo v, f;
 
@@ -42,16 +42,13 @@ void loadTriangleProgram(rendering::GraphicsSystem& gSystem)
 
 int main(int argc, char **argv)
 {
-	rendering::GraphicsSystem gSystem;
 	gSystem.initialize();
 
-	loadTriangleProgram(gSystem);
+	loadTriangleProgram();
 
-	core::GameObject triGo;
-	renderer = new rendering::RendererComponent(&triGo);
-	triGo.add_component(renderer);
+	core::GameObject triangleObj;
 
-	renderer->program = gSystem.get_program("Triangle");
+	rendering::RendererComponent* renderer = triangleObj.addComponent(gSystem.createRenderComponent("Triangle"));
 	renderer->model = Model::create_debug_triangle();
 
 	glutDisplayFunc(renderScene);

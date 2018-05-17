@@ -8,11 +8,13 @@ namespace rendering
 	class RendererComponent : public core::Component
 	{
 	public:
-		explicit RendererComponent(core::GameObject* go);
+		RendererComponent();
+		explicit RendererComponent(ShaderProgram::shader_id);
 
-		ShaderProgram const* program;
+		ShaderProgram::shader_id shader_id;
 		Model model;
 		
+		void activate() const;
 		void draw() const;
 	};
 }
