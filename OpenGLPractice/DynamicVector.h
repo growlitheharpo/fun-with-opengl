@@ -97,6 +97,12 @@ namespace memory
 		void erase(iterator first, iterator last);
 		void swap(this_type& other) noexcept;
 		void clear();
+
+		template<typename... Ts>
+		void emplace_back(Ts&&... args);
+
+		template<typename... Ts>
+		void emplace(const_iterator position, Ts&&... args);
 	};
 
 	template <typename DataType, typename s, typename d, s initial_alloc>
@@ -288,7 +294,7 @@ namespace memory
 	void DynamicVector<DataType, s, d, initial_alloc>::push_back(value_type&& other)
 	{
 		pointer new_location = push_back_get_location_internal();
-		new (new_location)value_type(other);
+		new (new_location)value_type(std::move(other));
 	}
 
 	template <typename DataType, typename s, typename d, s initial_alloc>
@@ -397,5 +403,19 @@ namespace memory
 
 		free(internal_buffer_);
 		memset(this, 0, sizeof this);
+	}
+
+	template <typename DataType, typename s, typename d, s initial_alloc>
+	template <typename ... Ts>
+	void DynamicVector<DataType, s, d, initial_alloc>::emplace_back(Ts&&... args)
+	{
+		push_back(std::move(value_type(std::forward<Ts>(args)...)));
+	}
+
+	template <typename DataType, typename s, typename d, s initial_alloc>
+	template <typename ... Ts>
+	void DynamicVector<DataType, s, d, initial_alloc>::emplace(const_iterator position, Ts&&... args)
+	{
+		insert(position, std::move(value_type(std::forward<Ts>(args)...)));
 	}
 }
