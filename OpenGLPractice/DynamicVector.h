@@ -409,13 +409,15 @@ namespace memory
 	template <typename ... Ts>
 	void DynamicVector<DataType, s, d, initial_alloc>::emplace_back(Ts&&... args)
 	{
-		push_back(std::move(value_type(std::forward<Ts>(args)...)));
+		pointer new_location = push_back_get_location_internal();
+		new (new_location)value_type(std::forward<Ts>(args)...);
 	}
 
 	template <typename DataType, typename s, typename d, s initial_alloc>
 	template <typename ... Ts>
 	void DynamicVector<DataType, s, d, initial_alloc>::emplace(const_iterator position, Ts&&... args)
 	{
-		insert(position, std::move(value_type(std::forward<Ts>(args)...)));
+		pointer new_location = insert_get_location_internal(position);
+		new (new_location)value_type(std::forward<Ts>(args)...);
 	}
 }
