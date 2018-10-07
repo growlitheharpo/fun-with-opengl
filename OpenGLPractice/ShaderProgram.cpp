@@ -1,4 +1,6 @@
 ﻿#include "ShaderProgram.h"
+
+#include <GL/glew.h>
 #include <fstream>
 #include "Logging.h"
 

@@ -1,5 +1,7 @@
 ﻿#pragma once
 #include <vector>
+
+#include "DynamicVector.h"
 #include "ShaderProgram.h"
 #include <map>
 #include "RendererComponent.h"
@@ -12,7 +14,7 @@ namespace rendering
 		std::vector<ShaderProgram> shaders_;
 		std::map<std::string, ShaderProgram::shader_id> shader_names_;
 
-		std::vector<std::vector<RendererComponent>> renderables_;
+		memory::DynamicVector<memory::DynamicVector<RendererComponent>> renderables_;
 
 		bool initialized_ = false;
 

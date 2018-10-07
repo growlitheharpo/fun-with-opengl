@@ -11,6 +11,11 @@ namespace rendering
 		RendererComponent();
 		explicit RendererComponent(ShaderProgram::shader_id);
 
+		DISABLE_COPY_SEMANTICS(RendererComponent);
+		USE_DEFAULT_MOVE_SEMANTICS(RendererComponent);
+
+		~RendererComponent() = default;
+
 		ShaderProgram::shader_id shader_id;
 		Model model;
 		

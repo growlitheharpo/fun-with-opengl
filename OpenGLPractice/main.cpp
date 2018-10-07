@@ -6,6 +6,7 @@
 #include "GraphicsSystem.h"
 #include "GameObject.h"
 #include "RendererComponent.h"
+#include "DynamicVector.h"
 
 rendering::GraphicsSystem gSystem;
 
@@ -43,14 +44,14 @@ void loadTriangleProgram()
 int main(int argc, char **argv)
 {
 	gSystem.initialize();
-
+	
 	loadTriangleProgram();
-
+	
 	core::GameObject triangleObj;
-
+	
 	rendering::RendererComponent* renderer = triangleObj.addComponent(gSystem.createRenderComponent("Triangle"));
 	renderer->model = Model::create_debug_triangle();
-
+	
 	glutDisplayFunc(renderScene);
 	glutCloseFunc(close);
 	glutMainLoop();

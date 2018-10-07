@@ -6,11 +6,13 @@
 
 #ifndef NDEBUG
 
-#define DEBUG_IF(x, y) { if (x) { y; } }
-#define DEBUG_IF_ELSE(x, y, z) { if (x) { y; } else { z; } }
+#define DEBUG_IF(x, y) do { if (x) { y; } } while (false)
+#define DEBUG_IF_ELSE(x, y, z) do { if (x) { y; } else { z; } } while (false)
 
 #define DLOG_ERR(x) LOG_ERR(x)
 #define DLOG(x) LOG(x)
+
+#define DEBUG_STATEMENT(x) do { x } while(false)
 
 #else
 
@@ -19,5 +21,7 @@
 
 #define DLOG_ERR(x) {;}
 #define DLOG(x) {;}
+
+#define DEBUG_STATEMENT(x) do {} while(false)
 
 #endif

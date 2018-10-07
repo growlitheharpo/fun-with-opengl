@@ -1,6 +1,9 @@
 ﻿#include "GraphicsSystem.h"
 #include "Logging.h"
 #include <GL/freeglut.h>
+#include <GL/glew.h>
+#include "Iterator.h"
+#include "DynamicVector.h"
 
 using namespace rendering;
 
@@ -49,7 +52,7 @@ ShaderProgram::shader_id GraphicsSystem::loadShader(const std::string& program_n
 	shader_names_[program_name] = new_id;
 
 	// Add a new renderable category for renderables that will use this shader
-	renderables_.emplace_back();
+	renderables_.push_back();
 	
 	return new_id;
 }
@@ -71,10 +74,11 @@ RendererComponent* GraphicsSystem::createRenderComponent(const std::string& shad
 RendererComponent* GraphicsSystem::createRenderComponent(ShaderProgram::shader_id shaderId)
 {
 	DEBUG_IF(shaderId >= renderables_.size(),
-		throw std::runtime_error("Trying to create a render component with shader that does not exist!"))
+		throw std::runtime_error("Trying to create a render component with shader that does not exist!"));
 
-	std::vector<RendererComponent>& list = renderables_[shaderId];
-	list.emplace_back(shaderId);
+	memory::DynamicVector<RendererComponent>& list = renderables_[shaderId];
+	void* position = list.push_back_for_placement_new();
+	new (position)RendererComponent(shaderId);
 
 	return &list.back();
 }
