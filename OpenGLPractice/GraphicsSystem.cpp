@@ -47,8 +47,8 @@ ShaderProgram::shader_id GraphicsSystem::loadShader(const std::string& program_n
 	ShaderProgram::shader_id new_id = shaders_.size();
 
 	// Create and load the shader and add it to the name map
-	shaders_.emplace_back(new_id);
-	shaders_.back().createProgram(load_info);
+	ShaderProgram* program = PLACEMENT_NEW(shaders_.push_back_for_placement_new(), ShaderProgram(new_id));
+	program->createProgram(load_info);
 	shader_names_[program_name] = new_id;
 
 	// Add a new renderable category for renderables that will use this shader
@@ -76,11 +76,8 @@ RendererComponent* GraphicsSystem::createRenderComponent(ShaderProgram::shader_i
 	DEBUG_IF(shaderId >= renderables_.size(),
 		throw std::runtime_error("Trying to create a render component with shader that does not exist!"));
 
-	memory::DynamicVector<RendererComponent>& list = renderables_[shaderId];
-	void* position = list.push_back_for_placement_new();
-	new (position)RendererComponent(shaderId);
-
-	return &list.back();
+	auto& list = renderables_[shaderId];
+	return PLACEMENT_NEW(list.push_back_for_placement_new(), RendererComponent(shaderId));
 }
 
 void GraphicsSystem::render() const
@@ -97,7 +94,7 @@ void GraphicsSystem::render() const
 		for (const auto& renderable : renderables_[i])
 		{
 			renderable.activate();
-			glDrawArrays(GL_TRIANGLES, 0, renderable.model.vertexCount());
+			glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(renderable.model.vertexCount()));
 		}
 	}
 }

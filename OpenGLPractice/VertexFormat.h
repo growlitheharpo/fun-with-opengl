@@ -1,4 +1,5 @@
 #pragma once
+#include "MemoryUtils.h"
 
 enum AttributeIndex
 {
@@ -18,5 +19,8 @@ namespace rendering
 
 		explicit VertexFormat(const glm::vec3& pos) : position(pos), color(0.0f, 0.0f, 0.0f, 0.0f) { }
 		VertexFormat(const glm::vec3& pos, const glm::vec4& col) : position(pos), color(col) { }
+
+		USE_DEFAULT_COPY_SEMANTICS(VertexFormat);
+		USE_DEFAULT_MOVE_SEMANTICS(VertexFormat);
 	};
 }

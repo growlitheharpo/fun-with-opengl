@@ -1,6 +1,8 @@
 ﻿#include "Model.h"
 #include "VertexFormat.h"
 
+#include <glm/detail/type_vec3.hpp>
+
 void Model::initialize(const std::vector<rendering::VertexFormat>& vertices)
 {
 	using namespace rendering;

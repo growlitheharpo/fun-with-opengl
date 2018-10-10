@@ -2,6 +2,7 @@
 #include <GL/glew.h>
 #include <vector>
 #include "VertexFormat.h"
+#include "MemoryUtils.h"
 
 class Model
 {
@@ -9,21 +10,20 @@ private:
 	std::vector<GLuint> vbos_;
 	GLuint vao_ = 0;
 
-	int vertexCount_;
+	size_t vertexCount_ = 0;
 
 public:
 	Model() = default;
-	Model(const Model&) = default;
-	Model(Model&&) noexcept = default;
-	~Model() = default;
 
-	Model& operator = (const Model& other) = default;
-	Model& operator = (Model&& other) = default;
+	DISABLE_COPY_SEMANTICS(Model);
+	USE_DEFAULT_MOVE_SEMANTICS(Model);
+
+	~Model() = default;
 
 	void initialize(const std::vector<rendering::VertexFormat>& vertices);
 	void release();
 
-	int vertexCount() const { return vertexCount_; };
+	size_t vertexCount() const { return vertexCount_; };
 	void activate() const;
 
 	static Model create_debug_triangle();

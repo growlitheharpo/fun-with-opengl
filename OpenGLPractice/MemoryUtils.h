@@ -6,6 +6,8 @@
 #define REALLOC(x, y) realloc(x, y)
 #define MALLOC(x) malloc(x)
 
+#define PLACEMENT_NEW(location, constructor) new ((location)) constructor
+
 #define FLAG(x) 1 << x
 
 #define DISABLE_COPY_AND_MOVE_SEMANTICS(type_name)          \

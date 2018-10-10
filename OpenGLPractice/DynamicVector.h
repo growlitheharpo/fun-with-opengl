@@ -294,7 +294,7 @@ namespace memory
 	void DynamicVector<DataType, s, d, initial_alloc>::push_back(value_type&& other)
 	{
 		pointer new_location = push_back_get_location_internal();
-		new (new_location)value_type(std::move(other));
+		new (new_location)value_type(std::forward<value_type>(other));
 	}
 
 	template <typename DataType, typename s, typename d, s initial_alloc>

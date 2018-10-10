@@ -5,16 +5,20 @@
 #include "ShaderProgram.h"
 #include <map>
 #include "RendererComponent.h"
+#include "IntUtilities.h"
 
 namespace rendering
 {
 	class GraphicsSystem
 	{
 	private:
-		std::vector<ShaderProgram> shaders_;
 		std::map<std::string, ShaderProgram::shader_id> shader_names_;
 
-		memory::DynamicVector<memory::DynamicVector<RendererComponent>> renderables_;
+		memory::DynamicVector<ShaderProgram> shaders_;
+		memory::DynamicVector<
+			memory::DynamicVector<RendererComponent>,
+			StorageForUMaxCount<16>::Unsigned,
+			StorageForMaxCount<16>::Signed> renderables_;
 
 		bool initialized_ = false;
 

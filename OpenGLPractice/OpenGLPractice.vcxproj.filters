@@ -106,5 +106,8 @@
     <ClInclude Include="GeneralMacroUtils.h">
       <Filter>Source Files\Core</Filter>
     </ClInclude>
+    <ClInclude Include="IntUtilities.h">
+      <Filter>Source Files\Core\Memory</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

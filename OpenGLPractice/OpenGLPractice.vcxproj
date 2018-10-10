@@ -134,6 +134,7 @@
   <ItemGroup>
     <ClInclude Include="Component.h" />
     <ClInclude Include="GeneralMacroUtils.h" />
+    <ClInclude Include="IntUtilities.h" />
     <ClInclude Include="Iterator.h" />
     <ClInclude Include="MemoryUtils.h" />
     <ClInclude Include="GameObject.h" />
