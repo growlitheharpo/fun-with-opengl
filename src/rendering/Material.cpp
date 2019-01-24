@@ -1,4 +1,5 @@
 ﻿#include "Material.h"
+
 #include <glm/mat4x2.hpp>
 
 rendering::Material::Material(): shader_id_(std::numeric_limits<ShaderProgram::shader_id>::max())  // NOLINT

@@ -1,5 +1,6 @@
 ﻿#include "GameObject.h"
-#include "Transform.h"
+
+#include "core/Transform.h"
 
 core::GameObject::GameObject()
 {

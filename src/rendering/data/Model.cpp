@@ -1,7 +1,7 @@
 ﻿#include "Model.h"
-#include "VertexFormat.h"
 
 #include <glm/detail/type_vec3.hpp>
+#include "rendering/data/VertexFormat.h"
 
 void Model::initialize(const std::vector<rendering::VertexFormat>& vertices)
 {

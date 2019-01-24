@@ -1,5 +1,6 @@
 ﻿#pragma once
-#include "Component.h"
+
+#include "core/Component.h"
 #include <glm/glm.hpp>
 
 namespace core

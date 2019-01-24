@@ -1,10 +1,8 @@
 ﻿#pragma once
 
-#include "MemoryUtils.h"
-
-#include "GeneralMacroUtils.h"
-
 #include <cstddef>
+#include "core/utils/MemoryUtils.h"
+#include "core/utils/GeneralMacroUtils.h"
 
 namespace memory
 {

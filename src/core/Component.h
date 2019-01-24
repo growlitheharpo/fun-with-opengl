@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <guiddef.h>
-#include "MemoryUtils.h"
+
+#include "core/utils/MemoryUtils.h"
 
 namespace core
 {

@@ -1,6 +1,7 @@
 ﻿#include "Component.h"
+
 #include <windows.h>
-#include "Logging.h"
+#include "core/Logging.h"
 
 core::Component::Component()
 {

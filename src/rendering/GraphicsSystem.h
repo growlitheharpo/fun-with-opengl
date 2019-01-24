@@ -1,11 +1,11 @@
 ﻿#pragma once
 #include <vector>
-
-#include "DynamicVector.h"
-#include "ShaderProgram.h"
 #include <map>
-#include "RendererComponent.h"
-#include "IntUtilities.h"
+
+#include "core/memory/DynamicVector.h"
+#include "core/utils/IntUtilities.h"
+#include "rendering/data/ShaderProgram.h"
+#include "rendering/data/RendererComponent.h"
 
 namespace rendering
 {

@@ -1,7 +1,8 @@
 ﻿#pragma once
-#include "ShaderProgram.h"
 #include <GL/glew.h>
 #include <glm/glm.hpp>
+
+#include "rendering/data/ShaderProgram.h"
 
 namespace rendering
 {

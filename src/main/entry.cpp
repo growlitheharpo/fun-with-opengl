@@ -1,11 +1,12 @@
 #include <GL/glew.h>
 #include <GL/freeglut.h>
-#include "Logging.h"
-#include "ShaderProgram.h"
-#include "Model.h"
-#include "GraphicsSystem.h"
-#include "GameObject.h"
-#include "RendererComponent.h"
+
+#include "core/GameObject.h"
+#include "core/Logging.h"
+#include "rendering/data/ShaderProgram.h"
+#include "rendering/data/Model.h"
+#include "rendering/data/RendererComponent.h"
+#include "rendering/GraphicsSystem.h"
 
 rendering::GraphicsSystem gSystem;
 

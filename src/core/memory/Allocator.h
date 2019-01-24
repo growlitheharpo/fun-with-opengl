@@ -1,9 +1,9 @@
 ﻿#pragma once
 #include <cstddef>
-#include "GeneralMacroUtils.h"
-#include "MemoryUtils.h"
 #include <cstdlib>
-#include "SizeTraits.h"
+#include "core/utils/GeneralMacroUtils.h"
+#include "core/utils/MemoryUtils.h"
+#include "core/memory/SizeTraits.h"
 
 namespace memory
 {

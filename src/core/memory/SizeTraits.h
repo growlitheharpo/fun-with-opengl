@@ -1,5 +1,5 @@
 #pragma once
-#include "IntUtilities.h"
+#include "core/utils/IntUtilities.h"
 
 namespace memory
 {

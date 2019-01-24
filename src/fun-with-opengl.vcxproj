@@ -85,6 +85,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -116,42 +117,42 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="A3DMemoryManager.cpp" />
-    <ClCompile Include="Component.cpp" />
-    <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="GraphicsSystem.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Material.cpp" />
-    <ClCompile Include="Model.cpp" />
-    <ClCompile Include="RendererComponent.cpp" />
-    <ClCompile Include="ShaderProgram.cpp" />
-    <ClCompile Include="Transform.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
     <None Include="Shaders\frag.glsl" />
     <None Include="Shaders\vertex.glsl" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="A3DMemoryManager.h" />
-    <ClInclude Include="Allocator.h" />
-    <ClInclude Include="Component.h" />
-    <ClInclude Include="GeneralMacroUtils.h" />
-    <ClInclude Include="IntUtilities.h" />
-    <ClInclude Include="Iterator.h" />
-    <ClInclude Include="MemHandle.h" />
-    <ClInclude Include="MemoryUtils.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="GraphicsSystem.h" />
-    <ClInclude Include="Logging.h" />
-    <ClInclude Include="Material.h" />
-    <ClInclude Include="Model.h" />
-    <ClInclude Include="RendererComponent.h" />
-    <ClInclude Include="ShaderProgram.h" />
-    <ClInclude Include="SizeTraits.h" />
-    <ClInclude Include="Transform.h" />
-    <ClInclude Include="DynamicVector.h" />
-    <ClInclude Include="VertexFormat.h" />
+    <ClCompile Include="core\Component.cpp" />
+    <ClCompile Include="core\GameObject.cpp" />
+    <ClCompile Include="core\memory\A3DMemoryManager.cpp" />
+    <ClCompile Include="core\Transform.cpp" />
+    <ClCompile Include="main\entry.cpp" />
+    <ClCompile Include="rendering\data\Model.cpp" />
+    <ClCompile Include="rendering\data\RendererComponent.cpp" />
+    <ClCompile Include="rendering\data\ShaderProgram.cpp" />
+    <ClCompile Include="rendering\GraphicsSystem.cpp" />
+    <ClCompile Include="rendering\Material.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="core\Component.h" />
+    <ClInclude Include="core\GameObject.h" />
+    <ClInclude Include="core\utils\GeneralMacroUtils.h" />
+    <ClInclude Include="core\Logging.h" />
+    <ClInclude Include="core\memory\A3DMemoryManager.h" />
+    <ClInclude Include="core\memory\Allocator.h" />
+    <ClInclude Include="core\memory\DynamicVector.h" />
+    <ClInclude Include="core\memory\Iterator.h" />
+    <ClInclude Include="core\memory\MemHandle.h" />
+    <ClInclude Include="core\memory\SizeTraits.h" />
+    <ClInclude Include="core\Transform.h" />
+    <ClInclude Include="core\utils\IntUtilities.h" />
+    <ClInclude Include="core\utils\MemoryUtils.h" />
+    <ClInclude Include="rendering\data\Model.h" />
+    <ClInclude Include="rendering\data\RendererComponent.h" />
+    <ClInclude Include="rendering\data\ShaderProgram.h" />
+    <ClInclude Include="rendering\data\VertexFormat.h" />
+    <ClInclude Include="rendering\GraphicsSystem.h" />
+    <ClInclude Include="rendering\Material.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

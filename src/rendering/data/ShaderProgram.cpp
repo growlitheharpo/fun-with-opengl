@@ -2,7 +2,7 @@
 
 #include <GL/glew.h>
 #include <fstream>
-#include "Logging.h"
+#include "core/Logging.h"
 
 using namespace rendering;
 
@@ -36,7 +36,7 @@ GLuint ShaderProgram::create_shader(GLenum shaderType, const std::string& source
 	const GLuint shader = glCreateShader(shaderType);
 
 	const char *shader_code_ptr = source.c_str();
-	const int shader_code_size = source.size();
+	const int shader_code_size = static_cast<const int>(source.size());
 
 	glShaderSource(shader, 1, &shader_code_ptr, &shader_code_size);
 	glCompileShader(shader);

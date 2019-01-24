@@ -1,8 +1,9 @@
 ﻿#pragma once
 #include <GL/glew.h>
-#include <vector>
-#include "VertexFormat.h"
-#include "MemoryUtils.h"
+#include <vector> // TODO: Replace with DynamicVector
+
+#include "rendering/data/VertexFormat.h"
+#include "core/utils/MemoryUtils.h"
 
 class Model
 {

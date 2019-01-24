@@ -1,9 +1,9 @@
 ﻿#include "GraphicsSystem.h"
-#include "Logging.h"
+
 #include <GL/freeglut.h>
 #include <GL/glew.h>
-#include "Iterator.h"
-#include "DynamicVector.h"
+#include "core/Logging.h"
+#include "core/memory/DynamicVector.h"
 
 using namespace rendering;
 

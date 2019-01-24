@@ -1,7 +1,8 @@
 ﻿#pragma once
-#include "Component.h"
-#include "ShaderProgram.h"
-#include "Model.h"
+#include "core/Component.h"
+
+#include "rendering/data/Model.h"
+#include "rendering/data/ShaderProgram.h"
 
 namespace rendering
 {

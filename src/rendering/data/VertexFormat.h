@@ -1,5 +1,6 @@
 #pragma once
-#include "MemoryUtils.h"
+
+#include "core/utils/MemoryUtils.h"
 
 enum AttributeIndex
 {

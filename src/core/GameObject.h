@@ -1,7 +1,7 @@
 ﻿#pragma once
-#include "Component.h"
-#include <vector>
-#include "Logging.h"
+#include <vector> // TODO: Replace with DynamicVector
+#include "core/Component.h"
+#include "core/Logging.h"
 
 namespace core
 {

@@ -9,8 +9,9 @@
 *
 */
 #include "A3DMemoryManager.h"
-#include "IntUtilities.h"
+
 #include <cstring>
+#include "core/utils/IntUtilities.h"
 
 #ifdef _DEBUG
 #define FREED_BLOCKS 0xDD
