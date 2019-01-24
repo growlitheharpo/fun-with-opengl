@@ -34,12 +34,22 @@
         type func_signature implementation                                      \
         const_type func_signature const implementation
 
-#define DECLARE_CANONICAL_ADDITION_OPERATORS_NOPOST(type_name, diff_type)                                      \
-		INLINE type_name& operator++ () { return operator+=(1); }                                              \
+#define DECLARE_CANONICAL_ADDITION_OPERATORS(type_name, diff_type)                                             \
 		type_name operator+ (diff_type offset) const { type_name tmp(*this); return tmp.operator+=(offset); }  \
-		type_name operator++ (int) const = delete; // NO postfix!
+		INLINE type_name& operator++ () { return operator+=(1); }                                              \
+		type_name operator++ (int) { type_name tmp(*this); this->operator++(); return tmp; }
+
+#define DECLARE_CANONICAL_ADDITION_OPERATORS_NOPOST(type_name, diff_type)                                      \
+		type_name operator+ (diff_type offset) const { type_name tmp(*this); return tmp.operator+=(offset); }  \
+		INLINE type_name& operator++ () { return operator+=(1); }                                              \
+		type_name operator++ (int) = delete; // NO postfix!
+
+#define DECLARE_CANONICAL_SUBTRACTION_OPERATORS(type_name, diff_type)                                   \
+		type_name operator- (diff_type offset) const { type_name tmp(*this); return tmp.operator-=(offset); }  \
+		INLINE type_name& operator-- () { return operator-=(1); }                                              \
+		type_name operator-- (int) { type_name tmp(*this); this->operator--(); return tmp; }
 
 #define DECLARE_CANONICAL_SUBTRACTION_OPERATORS_NOPOST(type_name, diff_type)                                   \
-		INLINE type_name& operator-- () { return operator-=(1); }                                              \
 		type_name operator- (diff_type offset) const { type_name tmp(*this); return tmp.operator-=(offset); }  \
-		type_name operator-- (int) const = delete; // NO postfix!
+		INLINE type_name& operator-- () { return operator-=(1); }                                              \
+		type_name operator-- (int) = delete; // NO postfix!

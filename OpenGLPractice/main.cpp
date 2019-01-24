@@ -6,7 +6,6 @@
 #include "GraphicsSystem.h"
 #include "GameObject.h"
 #include "RendererComponent.h"
-#include "DynamicVector.h"
 
 rendering::GraphicsSystem gSystem;
 

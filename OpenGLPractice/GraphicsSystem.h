@@ -15,10 +15,7 @@ namespace rendering
 		std::map<std::string, ShaderProgram::shader_id> shader_names_;
 
 		memory::DynamicVector<ShaderProgram> shaders_;
-		memory::DynamicVector<
-			memory::DynamicVector<RendererComponent>,
-			StorageForUMaxCount<16>::Unsigned,
-			StorageForMaxCount<16>::Signed> renderables_;
+		memory::DynamicVector<memory::DynamicVector<RendererComponent>> renderables_;
 
 		bool initialized_ = false;
 
