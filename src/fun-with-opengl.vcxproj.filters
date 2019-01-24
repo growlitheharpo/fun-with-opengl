@@ -9,9 +9,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Resource Files\Shaders">
-      <UniqueIdentifier>{a4ca1c3e-a978-40e0-9e20-7c3546b7a7d5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\core">
       <UniqueIdentifier>{1c4057b8-62a1-4f91-8763-84b31b815a05}</UniqueIdentifier>
     </Filter>
@@ -30,14 +27,17 @@
     <Filter Include="Source Files\main">
       <UniqueIdentifier>{2d7e2937-ab38-4419-9fb1-a63acdcc55b4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\shaders">
+      <UniqueIdentifier>{a4ca1c3e-a978-40e0-9e20-7c3546b7a7d5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="Shaders\frag.glsl">
-      <Filter>Resource Files\Shaders</Filter>
+      <Filter>Resource Files\shaders</Filter>
     </None>
     <None Include="Shaders\vertex.glsl">
-      <Filter>Resource Files\Shaders</Filter>
+      <Filter>Resource Files\shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
