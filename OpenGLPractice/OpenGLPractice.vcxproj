@@ -116,6 +116,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="A3DMemoryManager.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GraphicsSystem.cpp" />
@@ -132,10 +133,13 @@
     <None Include="Shaders\vertex.glsl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="A3DMemoryManager.h" />
+    <ClInclude Include="Allocator.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="GeneralMacroUtils.h" />
     <ClInclude Include="IntUtilities.h" />
     <ClInclude Include="Iterator.h" />
+    <ClInclude Include="MemHandle.h" />
     <ClInclude Include="MemoryUtils.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GraphicsSystem.h" />
@@ -144,6 +148,7 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="RendererComponent.h" />
     <ClInclude Include="ShaderProgram.h" />
+    <ClInclude Include="SizeTraits.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="DynamicVector.h" />
     <ClInclude Include="VertexFormat.h" />

@@ -53,6 +53,9 @@
     <ClCompile Include="Transform.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
+    <ClCompile Include="A3DMemoryManager.cpp">
+      <Filter>Source Files\Core\Memory</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -107,6 +110,18 @@
       <Filter>Source Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="IntUtilities.h">
+      <Filter>Source Files\Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="A3DMemoryManager.h">
+      <Filter>Source Files\Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="MemHandle.h">
+      <Filter>Source Files\Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Allocator.h">
+      <Filter>Source Files\Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="SizeTraits.h">
       <Filter>Source Files\Core\Memory</Filter>
     </ClInclude>
   </ItemGroup>
