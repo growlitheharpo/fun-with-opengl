@@ -1,4 +1,4 @@
-h1. Fun with OpenGL
+# Fun with OpenGL
 
 This is a repo I've been working in for a long time now. It's never been a project with a final goal in mind. Instead, it's geared towards trying things out that I'm currently interested in, inside of a framework that's small enough to support that without having to make huge architecture decisions or changes.
 
