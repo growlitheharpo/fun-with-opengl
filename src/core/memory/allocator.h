@@ -5,8 +5,16 @@
 #include "core/utils/MemoryUtils.h"
 #include "core/memory/SizeTraits.h"
 
+#ifdef _USE_STD_MEM
+#include <iterator>
+#endif
+
 namespace memory
 {
+#ifdef _USE_STD_MEM
+	using namespace std;
+#else
+
 	template<typename s>
 	class HeapAllocation
 	{
@@ -28,7 +36,7 @@ namespace memory
 	};
 
 	template <typename Val, typename STraits = DefaultSizeTraits, typename Alloc = HeapAllocation<typename STraits::size_type>>
-	class Allocator
+	class allocator
 	{
 	public:
 		DECLARE_STANDARD_TYPEDEFS(Val)
@@ -36,10 +44,10 @@ namespace memory
 		typedef typename STraits::size_type size_type;
 		typedef typename STraits::difference_type difference_type;
 
-		constexpr Allocator() noexcept = default;
-		USE_DEFAULT_COPY_SEMANTICS(Allocator);
-		USE_DEFAULT_MOVE_SEMANTICS(Allocator);
-		~Allocator() = default;
+		constexpr allocator() noexcept = default;
+		USE_DEFAULT_COPY_SEMANTICS(allocator);
+		USE_DEFAULT_MOVE_SEMANTICS(allocator);
+		~allocator() = default;
 
 		void* allocate(size_type count)
 		{
@@ -61,4 +69,5 @@ namespace memory
 			return (static_cast<size_type>(-1) / sizeof(value_type));
 		}
 	};
+#endif
 }

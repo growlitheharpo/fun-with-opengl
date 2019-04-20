@@ -2,7 +2,7 @@
 #include <vector>
 #include <map>
 
-#include "core/memory/DynamicVector.h"
+#include "core/memory/vector.h"
 #include "core/utils/IntUtilities.h"
 #include "rendering/data/ShaderProgram.h"
 #include "rendering/data/RendererComponent.h"
@@ -14,8 +14,8 @@ namespace rendering
 	private:
 		std::map<std::string, ShaderProgram::shader_id> shader_names_;
 
-		memory::DynamicVector<ShaderProgram> shaders_;
-		memory::DynamicVector<memory::DynamicVector<RendererComponent>> renderables_;
+		memory::vector<ShaderProgram> shaders_;
+		memory::vector<memory::vector<RendererComponent>> renderables_;
 
 		bool initialized_ = false;
 

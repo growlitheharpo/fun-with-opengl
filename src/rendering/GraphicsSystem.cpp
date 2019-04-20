@@ -3,7 +3,7 @@
 #include <GL/freeglut.h>
 #include <GL/glew.h>
 #include "core/Logging.h"
-#include "core/memory/DynamicVector.h"
+#include "core/memory/vector.h"
 
 using namespace rendering;
 

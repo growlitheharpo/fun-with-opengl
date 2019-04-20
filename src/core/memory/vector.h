@@ -2,14 +2,21 @@
 #include <cstdlib>
 #include <limits>
 
-#include "core/memory/Iterator.h"
-#include "core/memory/Allocator.h"
+#include "core/memory/iterator.h"
+#include "core/memory/allocator.h"
 #include "core/Logging.h"
+
+#include <vector>
+#ifdef _USE_STD_MEM
+#endif
 
 namespace memory
 {
-	template <typename DataType, typename AllocT = Allocator<DataType>, typename AllocT::size_type initial_alloc = 5>
-	class DynamicVector
+#ifdef _USE_STD_MEM
+	using namespace std;
+#else
+	template <typename DataType, typename AllocT = allocator<DataType>>
+	class vector
 	{
 	public:
 		DECLARE_STANDARD_TYPEDEFS(DataType)
@@ -18,12 +25,12 @@ namespace memory
 		typedef typename alloc::size_type size_type;
 		typedef typename alloc::difference_type difference_type;
 
-		typedef Iterator<value_type, size_type, difference_type> iterator;
-		typedef ConstIterator<value_type, size_type, difference_type> const_iterator;
-		typedef ReverseIterator<iterator> reverse_iterator;
-		typedef ReverseIterator<const_iterator> const_reverse_iterator;
+		typedef iterator<value_type, size_type, difference_type> iterator;
+		typedef const_iterator<value_type, size_type, difference_type> const_iterator;
+		typedef memory::reverse_iterator<iterator> reverse_iterator;
+		typedef memory::reverse_iterator<const_iterator> const_reverse_iterator;
 
-		typedef DynamicVector this_type;
+		typedef vector this_type;
 
 	private:
 		enum iterator_check_type
@@ -47,13 +54,13 @@ namespace memory
 		INLINE pointer insert_get_location_internal(const_iterator position);
 
 	public:
-		DynamicVector() : capacity_(0), size_(0), internal_buffer_(nullptr) { }
-		explicit DynamicVector(size_type initial_capacity);
+		vector() : capacity_(0), size_(0), internal_buffer_(nullptr) { }
+		explicit vector(size_type initial_capacity);
 
-		DISABLE_COPY_SEMANTICS(DynamicVector);
-		USE_DEFAULT_MOVE_SEMANTICS(DynamicVector);
+		DISABLE_COPY_SEMANTICS(vector);
+		USE_DEFAULT_MOVE_SEMANTICS(vector);
 
-		~DynamicVector();
+		~vector();
 
 
 		// **** ITERATORS **** */
@@ -113,8 +120,8 @@ namespace memory
 		void emplace(const_iterator position, Ts&&... args);
 	};
 
-	template <typename DataType, typename AllocT, typename AllocT::size_type initial_alloc>
-	bool DynamicVector<DataType, AllocT, initial_alloc>::
+	template <typename DataType, typename AllocT>
+	bool vector<DataType, AllocT>::
 		is_iterator_valid(const_iterator iter, iterator_check_type allow_flags)
 	{
 		if (size() == 0)
@@ -131,16 +138,16 @@ namespace memory
 		return iter != end() || (allow_flags & allow_end);
 	}
 
-	template <typename DataType, typename AllocT, typename AllocT::size_type initial_alloc>
-	void DynamicVector<DataType, AllocT, initial_alloc>::
+	template <typename DataType, typename AllocT>
+	void vector<DataType, AllocT>::
 		check_iterator_valid(const_iterator iter, iterator_check_type allow_flags)
 	{
 		if (!is_iterator_valid(iter, allow_flags))
 			throw std::out_of_range("");
 	}
 
-	template <typename DataType, typename AllocT, typename AllocT::size_type initial_alloc>
-	void* DynamicVector<DataType, AllocT, initial_alloc>::
+	template <typename DataType, typename AllocT>
+	void* vector<DataType, AllocT>::
 		reallocate(size_type new_capacity)
 	{
 		size_type original_capacity = capacity_;
@@ -153,14 +160,14 @@ namespace memory
 			reinterpret_cast<pointer>(internal_buffer_) + original_capacity);
 	}
 
-	template <typename DataType, typename AllocT, typename AllocT::size_type initial_alloc>
-	typename DynamicVector<DataType, AllocT, initial_alloc>::pointer DynamicVector<DataType, AllocT, initial_alloc>::
+	template <typename DataType, typename AllocT>
+	typename vector<DataType, AllocT>::pointer vector<DataType, AllocT>::
 		push_back_get_location_internal()
 	{
 		pointer new_location;
 
 		if (capacity() == 0)
-			new_location = reinterpret_cast<pointer>(reallocate(initial_alloc));
+			new_location = reinterpret_cast<pointer>(reallocate(1));
 		else if (size() == capacity())
 			new_location = reinterpret_cast<pointer>(reallocate(static_cast<size_type>(GROWTH_RATE * capacity())));
 		else
@@ -170,8 +177,8 @@ namespace memory
 		return new_location;
 	}
 
-	template <typename DataType, typename AllocT, typename AllocT::size_type initial_alloc>
-	typename DynamicVector<DataType, AllocT, initial_alloc>::pointer DynamicVector<DataType, AllocT, initial_alloc>::
+	template <typename DataType, typename AllocT>
+	typename vector<DataType, AllocT>::pointer vector<DataType, AllocT>::
 		insert_get_location_internal(const_iterator position)
 	{
 		DEBUG_STATEMENT(check_iterator_valid(position, iterator_check_type(allow_begin_when_zero | allow_end)););
@@ -195,20 +202,20 @@ namespace memory
 		return &(*iter);
 	}
 
-	template <typename DataType, typename AllocT, typename AllocT::size_type initial_alloc>
-	DynamicVector<DataType, AllocT, initial_alloc>::DynamicVector(size_type initial_capacity) : capacity_(0), size_(0), internal_buffer_(nullptr)
+	template <typename DataType, typename AllocT>
+	vector<DataType, AllocT>::vector(size_type initial_capacity) : capacity_(0), size_(0), internal_buffer_(nullptr)
 	{
 		reserve(initial_capacity);
 	}
 
-	template <typename DataType, typename AllocT, typename AllocT::size_type initial_alloc>
-	DynamicVector<DataType, AllocT, initial_alloc>::~DynamicVector()
+	template <typename DataType, typename AllocT>
+	vector<DataType, AllocT>::~vector()
 	{
 		this->clear();
 	}
 
-	template <typename DataType, typename AllocT, typename AllocT::size_type initial_alloc>
-	void DynamicVector<DataType, AllocT, initial_alloc>::
+	template <typename DataType, typename AllocT>
+	void vector<DataType, AllocT>::
 		resize(size_type count)
 	{
 		DEBUG_STATEMENT(
@@ -229,8 +236,8 @@ namespace memory
 		}
 	}
 
-	template <typename DataType, typename AllocT, typename AllocT::size_type initial_alloc>
-	void DynamicVector<DataType, AllocT, initial_alloc>::
+	template <typename DataType, typename AllocT>
+	void vector<DataType, AllocT>::
 		resize(size_type count, const_reference val)
 	{
 		DEBUG_STATEMENT(
@@ -251,8 +258,8 @@ namespace memory
 		}
 	}
 
-	template <typename DataType, typename AllocT, typename AllocT::size_type initial_alloc>
-	void DynamicVector<DataType, AllocT, initial_alloc>::
+	template <typename DataType, typename AllocT>
+	void vector<DataType, AllocT>::
 		reserve(size_type count)
 	{
 		DEBUG_STATEMENT(
@@ -278,37 +285,37 @@ namespace memory
 		}
 	}
 
-	template <typename DataType, typename AllocT, typename AllocT::size_type initial_alloc>
-	void DynamicVector<DataType, AllocT, initial_alloc>::push_back()
+	template <typename DataType, typename AllocT>
+	void vector<DataType, AllocT>::push_back()
 	{
 		pointer new_location = push_back_get_location_internal();
 		new (new_location)value_type();
 	}
 
-	template <typename DataType, typename AllocT, typename AllocT::size_type initial_alloc>
-	void DynamicVector<DataType, AllocT, initial_alloc>::
+	template <typename DataType, typename AllocT>
+	void vector<DataType, AllocT>::
 		push_back(const_reference other)
 	{
 		pointer new_location = push_back_get_location_internal();
 		new (new_location)value_type(other);
 	}
 
-	template <typename DataType, typename AllocT, typename AllocT::size_type initial_alloc>
-	void DynamicVector<DataType, AllocT, initial_alloc>::push_back(value_type&& other)
+	template <typename DataType, typename AllocT>
+	void vector<DataType, AllocT>::push_back(value_type&& other)
 	{
 		pointer new_location = push_back_get_location_internal();
 		new (new_location)value_type(std::forward<value_type>(other));
 	}
 
-	template <typename DataType, typename AllocT, typename AllocT::size_type initial_alloc>
-	void* DynamicVector<DataType, AllocT, initial_alloc>::
+	template <typename DataType, typename AllocT>
+	void* vector<DataType, AllocT>::
 		push_back_for_placement_new()
 	{
 		return static_cast<void*>(push_back_get_location_internal());
 	}
 
-	template <typename DataType, typename AllocT, typename AllocT::size_type initial_alloc>
-	void DynamicVector<DataType, AllocT, initial_alloc>::
+	template <typename DataType, typename AllocT>
+	void vector<DataType, AllocT>::
 		pop_back()
 	{
 		pointer final_element = &back();
@@ -322,47 +329,47 @@ namespace memory
 			});
 	}
 
-	template <typename DataType, typename AllocT, typename AllocT::size_type initial_alloc>
-	void DynamicVector<DataType, AllocT, initial_alloc>::
+	template <typename DataType, typename AllocT>
+	void vector<DataType, AllocT>::
 		insert(const_iterator position)
 	{
 		pointer position_ptr = insert_get_location_internal(position);
 		new (position_ptr)value_type();
 	}
 
-	template <typename DataType, typename AllocT, typename AllocT::size_type initial_alloc>
-	void DynamicVector<DataType, AllocT, initial_alloc>::
+	template <typename DataType, typename AllocT>
+	void vector<DataType, AllocT>::
 		insert(const_iterator position, const_reference val)
 	{
 		pointer position_ptr = insert_get_location_internal(position);
 		new (position_ptr)value_type(val);
 	}
 
-	template <typename DataType, typename AllocT, typename AllocT::size_type initial_alloc>
-	void DynamicVector<DataType, AllocT, initial_alloc>::
+	template <typename DataType, typename AllocT>
+	void vector<DataType, AllocT>::
 		insert(const_iterator position, value_type&& val)
 	{
 		pointer position_ptr = insert_get_location_internal(position);
 		new (position_ptr)value_type(val);
 	}
 
-	template <typename DataType, typename AllocT, typename AllocT::size_type initial_alloc>
-	void* DynamicVector<DataType, AllocT, initial_alloc>::
+	template <typename DataType, typename AllocT>
+	void* vector<DataType, AllocT>::
 		insert_for_placement_new(iterator position)
 	{
 		return static_cast<void*>(insert_get_location_internal(position));
 	}
 
-	template <typename DataType, typename AllocT, typename AllocT::size_type initial_alloc>
-	void DynamicVector<DataType, AllocT, initial_alloc>::
+	template <typename DataType, typename AllocT>
+	void vector<DataType, AllocT>::
 		erase(iterator position)
 	{
 		DEBUG_STATEMENT(check_iterator_valid(position, disallow_special_cases););
 		erase(position, position);
 	}
 
-	template <typename DataType, typename AllocT, typename AllocT::size_type initial_alloc>
-	void DynamicVector<DataType, AllocT, initial_alloc>::
+	template <typename DataType, typename AllocT>
+	void vector<DataType, AllocT>::
 		erase(iterator first, iterator last)
 	{
 		DEBUG_STATEMENT(check_iterator_valid(first, disallow_special_cases););
@@ -389,8 +396,8 @@ namespace memory
 		size_ -= destroyed_count;
 	}
 
-	template <typename DataType, typename AllocT, typename AllocT::size_type initial_alloc>
-	void DynamicVector<DataType, AllocT, initial_alloc>::
+	template <typename DataType, typename AllocT>
+	void vector<DataType, AllocT>::
 		swap(this_type& other) noexcept
 	{
 		std::swap(this->size_, other.size);
@@ -398,8 +405,8 @@ namespace memory
 		std::swap(this->internal_buffer_, other.internal_buffer_);
 	}
 
-	template <typename DataType, typename AllocT, typename AllocT::size_type initial_alloc>
-	void DynamicVector<DataType, AllocT, initial_alloc>::
+	template <typename DataType, typename AllocT>
+	void vector<DataType, AllocT>::
 		clear()
 	{
 		for (auto& iter : *this)
@@ -409,21 +416,23 @@ namespace memory
 		memset(this, 0, sizeof this);
 	}
 
-	template <typename DataType, typename AllocT, typename AllocT::size_type initial_alloc>
+	template <typename DataType, typename AllocT>
 	template <typename ... Ts>
-	void DynamicVector<DataType, AllocT, initial_alloc>::
+	void vector<DataType, AllocT>::
 		emplace_back(Ts&&... args)
 	{
 		pointer new_location = push_back_get_location_internal();
 		new (new_location)value_type(std::forward<Ts>(args)...);
 	}
 
-	template <typename DataType, typename AllocT, typename AllocT::size_type initial_alloc>
+	template <typename DataType, typename AllocT>
 	template <typename ... Ts>
-	void DynamicVector<DataType, AllocT, initial_alloc>::
+	void vector<DataType, AllocT>::
 		emplace(const_iterator position, Ts&&... args)
 	{
 		pointer new_location = insert_get_location_internal(position);
 		new (new_location)value_type(std::forward<Ts>(args)...);
 	}
+
+#endif
 }

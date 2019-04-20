@@ -4,43 +4,51 @@
 #include "core/utils/MemoryUtils.h"
 #include "core/utils/GeneralMacroUtils.h"
 
+#ifdef _USE_STD_MEM
+#include <iterator>
+#endif
+
 namespace memory
 {
+#ifdef _USE_STD_MEM
+	using namespace std;
+#else
+
 	using size_t = std::size_t;
 
 	template <typename DataType, typename s = size_t, typename d = ptrdiff_t>
-	class Iterator;
+	class iterator;
 
 	template <typename DataType, typename s = size_t, typename d = ptrdiff_t>
-	class ConstIterator;
+	class const_iterator;
 
 	template <typename IteratorType>
-	class ReverseIterator;
+	class reverse_iterator;
 
 	template <typename DataType, typename s, typename d>
-	class Iterator
+	class iterator
 	{
 	public:
 		DECLARE_STANDARD_TYPEDEFS(DataType);
 
 		typedef s size_type;
 		typedef d difference_type;
-		typedef Iterator<DataType, size_type, difference_type>  this_type;
+		typedef iterator<DataType, size_type, difference_type>  this_type;
 
 		template <typename DataType, typename s, typename d>
-		friend class ConstIterator;
+		friend class const_iterator;
 
 	private:
 		pointer data_ptr_;
 
 	public:
-		Iterator() : data_ptr_(nullptr) { }
-		Iterator(pointer l) : data_ptr_(l) { }
+		iterator() : data_ptr_(nullptr) { }
+		iterator(pointer l) : data_ptr_(l) { }
 
-		USE_DEFAULT_COPY_SEMANTICS(Iterator);
-		USE_DEFAULT_MOVE_SEMANTICS(Iterator);
+		USE_DEFAULT_COPY_SEMANTICS(iterator);
+		USE_DEFAULT_MOVE_SEMANTICS(iterator);
 
-		~Iterator() = default;
+		~iterator() = default;
 
 		INLINE this_type& operator+=(difference_type offset) { data_ptr_ += offset; return *this; }
 		__forceinline this_type& operator++ () { return operator+=(1); } 
@@ -59,30 +67,30 @@ namespace memory
 	};
 
 	template <typename DataType, typename s, typename d>
-	class ConstIterator
+	class const_iterator
 	{
 	public:
 		DECLARE_STANDARD_TYPEDEFS(DataType);
 
 		typedef s size_type;
 		typedef d difference_type;
-		typedef ConstIterator<DataType, size_type, difference_type>  this_type;
-		typedef Iterator<DataType, s, d> base_iterator;
+		typedef const_iterator<DataType, size_type, difference_type>  this_type;
+		typedef iterator<DataType, s, d> base_iterator;
 
 	private:
 		pointer data_ptr_;
 
 	public:
-		ConstIterator() : data_ptr_(nullptr) { }
-		ConstIterator(pointer l) : data_ptr_(l) { }
+		const_iterator() : data_ptr_(nullptr) { }
+		const_iterator(pointer l) : data_ptr_(l) { }
 
-		USE_DEFAULT_COPY_SEMANTICS(ConstIterator);
-		USE_DEFAULT_MOVE_SEMANTICS(ConstIterator);
+		USE_DEFAULT_COPY_SEMANTICS(const_iterator);
+		USE_DEFAULT_MOVE_SEMANTICS(const_iterator);
 
-		ConstIterator(const base_iterator& o) noexcept : data_ptr_(o.data_ptr_) { }
-		ConstIterator(base_iterator&& o) noexcept : data_ptr_(o.data_ptr_) { }
+		const_iterator(const base_iterator& o) noexcept : data_ptr_(o.data_ptr_) { }
+		const_iterator(base_iterator&& o) noexcept : data_ptr_(o.data_ptr_) { }
 
-		~ConstIterator() = default;
+		~const_iterator() = default;
 
 		INLINE this_type& operator+=(difference_type offset) { data_ptr_ += offset; return *this; }
 		DECLARE_CANONICAL_ADDITION_OPERATORS_NOPOST(this_type, difference_type)
@@ -103,26 +111,26 @@ namespace memory
 	};
 
 	template <typename IteratorType>
-	class ReverseIterator
+	class reverse_iterator
 	{
 	public:
 		typedef IteratorType iterator;
 		USING_STANDARD_TYPEDEFS(iterator);
 
 		using difference_type = typename iterator::difference_type;
-		typedef ReverseIterator<IteratorType> this_type;
+		typedef reverse_iterator<IteratorType> this_type;
 
 	private:
 		iterator data_ptr_;
 
 	public:
-		ReverseIterator() : data_ptr_(nullptr) { }
-		ReverseIterator(pointer d) : data_ptr_(d) { }
+		reverse_iterator() : data_ptr_(nullptr) { }
+		reverse_iterator(pointer d) : data_ptr_(d) { }
 
-		USE_DEFAULT_COPY_SEMANTICS(ReverseIterator);
-		USE_DEFAULT_MOVE_SEMANTICS(ReverseIterator);
+		USE_DEFAULT_COPY_SEMANTICS(reverse_iterator);
+		USE_DEFAULT_MOVE_SEMANTICS(reverse_iterator);
 
-		~ReverseIterator() = default;
+		~reverse_iterator() = default;
 
 		// The "trick" of reverse iterators is that their + operator calls the internal - operator, and vice-versa
 		INLINE this_type& operator+=(difference_type offset) { data_ptr_ -= offset; return *this; }
@@ -136,4 +144,5 @@ namespace memory
 
 		iterator base() const { return data_ptr_; }
 	};
+#endif
 }
