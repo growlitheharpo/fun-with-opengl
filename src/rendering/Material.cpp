@@ -1,5 +1,7 @@
 ﻿#include "Material.h"
 
+#include "core/utils/NarrowCast.h"
+
 #include <glm/mat4x2.hpp>
 
 rendering::Material::Material(): shader_id_(std::numeric_limits<ShaderProgram::shader_id>::max())  // NOLINT
@@ -12,7 +14,7 @@ void rendering::Material::initialize(const ShaderProgram& shader)
 {
 	for (int i = 0; i < uniform_count; ++i)
 	{
-		uniform_locations_[i] = glGetUniformLocation(shader.get_id(), uniform_vals_[i]);
+		uniform_locations_[i] = glGetUniformLocation(narrow_cast<GLuint>(shader.get_id()), uniform_vals_[i]);
 	}
 }
 

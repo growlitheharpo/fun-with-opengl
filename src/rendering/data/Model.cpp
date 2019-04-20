@@ -2,6 +2,7 @@
 
 #include <glm/detail/type_vec3.hpp>
 #include "rendering/data/VertexFormat.h"
+#include "core/utils/NarrowCast.h"
 
 void Model::initialize(const std::vector<rendering::VertexFormat>& vertices)
 {
@@ -28,7 +29,7 @@ void Model::initialize(const std::vector<rendering::VertexFormat>& vertices)
 void Model::release()
 {
 	glDeleteVertexArrays(1, &vao_);
-	glDeleteBuffers(vbos_.size(), vbos_.data());
+	glDeleteBuffers(narrow_cast<GLsizei>(vbos_.size()), vbos_.data());
 }
 
 void Model::activate() const
