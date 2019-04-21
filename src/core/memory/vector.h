@@ -122,10 +122,10 @@ namespace memory
 		void clear();
 
 		template<typename... Ts>
-		void emplace_back(Ts&&... args);
+		reference emplace_back(Ts&&... args);
 
 		template<typename... Ts>
-		void emplace(const_iterator position, Ts&&... args);
+		iterator emplace(const_iterator position, Ts&&... args);
 	};
 
 	template <typename DataType, typename AllocT>
@@ -434,20 +434,23 @@ namespace memory
 
 	template <typename DataType, typename AllocT>
 	template <typename ... Ts>
-	void vector<DataType, AllocT>::
+	typename vector<DataType, AllocT>::reference vector<DataType, AllocT>::
 		emplace_back(Ts&&... args)
 	{
 		pointer new_location = push_back_get_location_internal();
 		new (new_location)value_type(std::forward<Ts>(args)...);
+		return *new_location;
 	}
 
 	template <typename DataType, typename AllocT>
 	template <typename ... Ts>
-	void vector<DataType, AllocT>::
+	typename vector<DataType, AllocT>::iterator vector<DataType, AllocT>::
 		emplace(const_iterator position, Ts&&... args)
 	{
 		pointer new_location = insert_get_location_internal(position);
 		new (new_location)value_type(std::forward<Ts>(args)...);
+
+		return iterator(new_location);
 	}
 
 #endif

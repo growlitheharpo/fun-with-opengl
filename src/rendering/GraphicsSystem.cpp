@@ -47,12 +47,12 @@ ShaderProgram::shader_id GraphicsSystem::loadShader(const std::string& program_n
 	ShaderProgram::shader_id new_id = shaders_.size();
 
 	// Create and load the shader and add it to the name map
-	ShaderProgram* program = PLACEMENT_NEW(shaders_.push_back_for_placement_new(), ShaderProgram(new_id));
-	program->createProgram(load_info);
+	auto& program = shaders_.emplace_back(new_id);
+	program.createProgram(load_info);
 	shader_names_[program_name] = new_id;
 
 	// Add a new renderable category for renderables that will use this shader
-	renderables_.push_back();
+	renderables_.resize(renderables_.size() + 1);
 	
 	return new_id;
 }
@@ -77,7 +77,7 @@ RendererComponent* GraphicsSystem::createRenderComponent(ShaderProgram::shader_i
 		throw std::runtime_error("Trying to create a render component with shader that does not exist!"));
 
 	auto& list = renderables_[shaderId];
-	return PLACEMENT_NEW(list.push_back_for_placement_new(), RendererComponent(shaderId));
+	return &list.emplace_back(shaderId);
 }
 
 void GraphicsSystem::render() const
