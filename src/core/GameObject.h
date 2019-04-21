@@ -1,7 +1,7 @@
 ﻿#pragma once
-#include <vector> // TODO: Replace with DynamicVector
 #include "core/Component.h"
 #include "core/Logging.h"
+#include "core/memory/vector.h"
 
 namespace core
 {
@@ -10,7 +10,7 @@ namespace core
 	class GameObject
 	{
 	private:
-		std::vector<Component*> components_;
+		memory::vector<Component*> components_;
 		Transform* transform_;
 
 	public:

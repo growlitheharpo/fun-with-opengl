@@ -30,7 +30,7 @@ namespace rendering
 
 		void initialize();
 		
-		ShaderProgram::shader_id loadShader(const std::string& program_name, const std::vector<ShaderProgram::LoadInfo>& load_info);
+		ShaderProgram::shader_id loadShader(const std::string& program_name, const memory::vector<ShaderProgram::LoadInfo>& load_info);
 		ShaderProgram::shader_id getProgramId(const std::string& name) const;
 
 		RendererComponent* createRenderComponent(const std::string& shaderName);

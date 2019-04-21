@@ -6,8 +6,8 @@
 #include "core/memory/allocator.h"
 #include "core/Logging.h"
 
-#include <vector>
 #ifdef _USE_STD_MEM
+#include <vector>
 #endif
 
 namespace memory
@@ -57,8 +57,16 @@ namespace memory
 		vector() : capacity_(0), size_(0), internal_buffer_(nullptr) { }
 		explicit vector(size_type initial_capacity);
 
+		vector(const std::initializer_list<value_type>&);
+
 		DISABLE_COPY_SEMANTICS(vector);
-		USE_DEFAULT_MOVE_SEMANTICS(vector);
+
+		vector(this_type&& other) : capacity_(0), size_(0), internal_buffer_(nullptr) 
+		{
+			swap(other);
+		}
+
+		vector& operator=(vector&&) = default;
 
 		~vector();
 
@@ -206,6 +214,14 @@ namespace memory
 	vector<DataType, AllocT>::vector(size_type initial_capacity) : capacity_(0), size_(0), internal_buffer_(nullptr)
 	{
 		reserve(initial_capacity);
+	}
+
+	template<typename DataType, typename AllocT>
+	inline memory::vector<DataType, AllocT>::vector(const std::initializer_list<value_type>& v) : capacity_(0), size_(0), internal_buffer_(nullptr)
+	{
+		reserve(v.size());
+		for (auto& val : v)
+			emplace_back(val);
 	}
 
 	template <typename DataType, typename AllocT>
@@ -400,7 +416,7 @@ namespace memory
 	void vector<DataType, AllocT>::
 		swap(this_type& other) noexcept
 	{
-		std::swap(this->size_, other.size);
+		std::swap(this->size_, other.size_);
 		std::swap(this->capacity_, other.capacity_);
 		std::swap(this->internal_buffer_, other.internal_buffer_);
 	}

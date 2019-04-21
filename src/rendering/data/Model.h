@@ -1,14 +1,14 @@
 ﻿#pragma once
 #include <GL/glew.h>
-#include <vector> // TODO: Replace with DynamicVector
 
 #include "rendering/data/VertexFormat.h"
 #include "core/utils/MemoryUtils.h"
+#include "core/memory/vector.h"
 
 class Model
 {
 private:
-	std::vector<GLuint> vbos_;
+	memory::vector<GLuint> vbos_;
 	GLuint vao_ = 0;
 
 	size_t vertexCount_ = 0;
@@ -21,7 +21,7 @@ public:
 
 	~Model() = default;
 
-	void initialize(const std::vector<rendering::VertexFormat>& vertices);
+	void initialize(const memory::vector<rendering::VertexFormat>& vertices);
 	void release();
 
 	size_t vertexCount() const { return vertexCount_; };

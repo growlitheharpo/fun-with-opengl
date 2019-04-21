@@ -4,7 +4,7 @@
 #include "rendering/data/VertexFormat.h"
 #include "core/utils/NarrowCast.h"
 
-void Model::initialize(const std::vector<rendering::VertexFormat>& vertices)
+void Model::initialize(const memory::vector<rendering::VertexFormat>& vertices)
 {
 	using namespace rendering;
 
@@ -57,7 +57,7 @@ Model Model::create_debug_cube()
 {
 	using namespace glm;
 	using namespace rendering;
-	std::vector<VertexFormat> vertices;
+	memory::vector<VertexFormat> vertices;
 
 	//vertices for the front face of the cube
 	vertices.emplace_back(vec3(-1.0, -1.0, 1.0), vec4(0.0, 0.0, 1.0, 1.0));

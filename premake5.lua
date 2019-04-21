@@ -13,7 +13,11 @@ workspace "fun-with-opengl"
     cppdialect "c++17"
 
     architecture "x86_64"
-    configurations { "Debug", "Release" }
+    configurations { "Test", "Debug", "Release" }
+	
+    filter { "configurations:Test" }
+        defines { "DEBUG", "_DEBUG", "_USE_STD_MEM" }
+        symbols "On"
 
     filter { "configurations:Debug" }
         defines { "DEBUG", "_DEBUG" }

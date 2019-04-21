@@ -57,9 +57,9 @@ GLuint ShaderProgram::create_shader(GLenum shaderType, const std::string& source
 	return shader;
 }
 
-GLuint ShaderProgram::createProgram(const std::vector<LoadInfo>& info)
+GLuint ShaderProgram::createProgram(const memory::vector<LoadInfo>& info)
 {
-	std::vector<GLuint> programs;
+	memory::vector<GLuint> programs;
 	programs.reserve(info.size());
 
 	for (const auto& shader: info)

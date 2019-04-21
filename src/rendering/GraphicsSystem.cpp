@@ -38,7 +38,7 @@ void GraphicsSystem::initialize()
 }
 
 ShaderProgram::shader_id GraphicsSystem::loadShader(const std::string& program_name,
-	const std::vector<ShaderProgram::LoadInfo>& load_info)
+	const memory::vector<ShaderProgram::LoadInfo>& load_info)
 {
 	DEBUG_IF(!initialized_,
 		throw std::runtime_error("Cannot perform graphics calls before initializing!"));
