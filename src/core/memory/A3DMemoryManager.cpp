@@ -14,11 +14,9 @@
 #include "core/utils/IntUtilities.h"
 
 #ifdef _DEBUG
-#define FREED_BLOCKS 0xDD
-#define NEW_BLOCKS 0xCD
-#else
-#define FREED_BLOCKS 0x00
-#define NEW_BLOCKS 0x00
+#define FREED_BLOCK_MARKER 0xDD
+#define NEW_BLOCK_MARKER 0xCD
+#define TABLE_END_MARKER 0xED
 #endif
 
 
@@ -145,7 +143,7 @@ void defragMoveNode(memory_node* original, memory_node* target, MemoryManager* m
 }
 
 /**
- * \brief Blanks the space between the node and its next with FREED_BLOCKS.
+ * \brief Blanks the space between the node and its next with FREED_BLOCK_MARKER.
  * If current is the tail of the list, blanks up to the handle table.
  */
 void debugBlankSpaceBetweenNodes(memory_node* current, MemoryManager* manager)
@@ -162,7 +160,7 @@ void debugBlankSpaceBetweenNodes(memory_node* current, MemoryManager* manager)
 	}
 
 	ptrdiff_t rangeSize = clearEnd - clearStart;
-	memset(clearStart, FREED_BLOCKS, rangeSize);
+	memset(clearStart, FREED_BLOCK_MARKER, rangeSize);
 #endif
 }
 
@@ -180,8 +178,10 @@ MemoryManager* initializeMemoryManager(void* buffer, size_t size)
 	manager->head->next = nullptr;
 	manager->head->size = 0;
 
+#ifdef _DEBUG
 	byte_t* tableEnd = (byte_t*)manager + manager->poolSize;
-	*tableEnd = 0xED;
+	*tableEnd = TABLE_END_MARKER;
+#endif
 
 	return manager;
 }
@@ -250,7 +250,7 @@ MEM_HANDLE reserveMemory(size_t size, MemoryManager* manager)
 	targetNode->size = size;
 
 #ifdef _DEBUG
-	memset(targetNode + 1, NEW_BLOCKS, targetNode->size);
+	memset(targetNode + 1, NEW_BLOCK_MARKER, targetNode->size);
 #endif
 
 	// Set the handle we made to point at the correct location and return it.
@@ -286,7 +286,7 @@ void freeMemory(MEM_HANDLE handle, MemoryManager* manager)
 		follower->next = searcher->next;
 
 #if _DEBUG
-	memset(searcher + 1, FREED_BLOCKS, searcher->size);
+	memset(searcher + 1, FREED_BLOCK_MARKER, searcher->size);
 #endif
 	searcher->size = 0;
 }
