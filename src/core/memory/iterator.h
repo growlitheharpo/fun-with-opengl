@@ -78,11 +78,11 @@ namespace memory
 		typedef iterator<DataType, s, d> base_iterator;
 
 	private:
-		pointer data_ptr_;
+		const_pointer data_ptr_;
 
 	public:
 		const_iterator() : data_ptr_(nullptr) { }
-		const_iterator(pointer l) : data_ptr_(l) { }
+		const_iterator(const_pointer l) : data_ptr_(l) { }
 
 		USE_DEFAULT_COPY_SEMANTICS(const_iterator);
 		USE_DEFAULT_MOVE_SEMANTICS(const_iterator);

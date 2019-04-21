@@ -42,9 +42,8 @@ namespace memory
 
 		static const size_type GROWTH_RATE = 2;
 
-		alloc allocator;
+		alloc allocator_;
 		size_type capacity_, size_;
-		void* internal_buffer_;
 
 		void* reallocate(size_type new_capacity);
 
@@ -54,14 +53,14 @@ namespace memory
 		INLINE pointer insert_get_location_internal(const_iterator position);
 
 	public:
-		vector() : capacity_(0), size_(0), internal_buffer_(nullptr) { }
+		vector() : capacity_(0), size_(0) { }
 		explicit vector(size_type initial_capacity);
 
 		vector(const std::initializer_list<value_type>&);
 
 		DISABLE_COPY_SEMANTICS(vector);
 
-		vector(this_type&& other) : capacity_(0), size_(0), internal_buffer_(nullptr) 
+		vector(this_type&& other) : capacity_(0), size_(0)
 		{
 			swap(other);
 		}
@@ -72,10 +71,28 @@ namespace memory
 
 
 		// **** ITERATORS **** */
-		MUT_AND_CONST_OF_TYPE(iterator, const_iterator, begin(), { return { reinterpret_cast<pointer>(internal_buffer_) }; });
-		MUT_AND_CONST_OF_TYPE(iterator, const_iterator, end(), { return { reinterpret_cast<pointer>(internal_buffer_) + size_ }; });
-		MUT_AND_CONST_OF_TYPE(reverse_iterator, const_reverse_iterator, rbegin(), { return { reinterpret_cast<pointer>(internal_buffer_) + size_ }; });
-		MUT_AND_CONST_OF_TYPE(reverse_iterator, const_reverse_iterator, rend(), { return { reinterpret_cast<pointer>(internal_buffer_) }; });
+		iterator begin()
+		{
+			return reinterpret_cast<pointer>(allocator_.get_data());
+		}
+
+		const_iterator begin() const
+		{
+			return reinterpret_cast<const_pointer>(allocator_.get_data());
+		}
+
+		iterator end()
+		{
+			return reinterpret_cast<pointer>(allocator_.get_data()) + size_;
+		}
+
+		const_iterator end() const
+		{
+			return reinterpret_cast<const_pointer>(allocator_.get_data()) + size_;
+		}
+
+		MUT_AND_CONST_OF_TYPE(reverse_iterator, const_reverse_iterator, rbegin(), { return { reinterpret_cast<pointer>(allocator_.get_data()) + size_ }; });
+		MUT_AND_CONST_OF_TYPE(reverse_iterator, const_reverse_iterator, rend(), { return { reinterpret_cast<pointer>(allocator_.get_data()) }; });
 		const_iterator cbegin() const { return begin(); }
 		const_iterator cend() const { return end(); }
 		const_reverse_iterator crbegin() const { return rbegin(); }
@@ -93,8 +110,16 @@ namespace memory
 
 
 		// **** ELEMENT ACCESS **** */
-		MUT_AND_CONST_OF_TYPE(reference, const_reference, 
-			operator[](size_type index), { return reinterpret_cast<pointer>(internal_buffer_)[index]; });
+		reference operator[](size_type index)
+		{
+			return reinterpret_cast<pointer>(allocator_.get_data())[index];
+		}
+
+		const_reference operator[](size_type index) const
+		{
+			return reinterpret_cast<const_pointer>(allocator_.get_data())[index];
+		}
+
 		MUT_AND_CONST_OF_TYPE(reference, const_reference, 
 			at(size_type index), { return operator[](index); });
 		MUT_AND_CONST_OF_TYPE(reference, const_reference, 
@@ -102,8 +127,8 @@ namespace memory
 		MUT_AND_CONST_OF_TYPE(reference, const_reference, 
 			back(), { DEBUG_IF(size_ == 0, throw std::out_of_range("")); return operator[](size_ - 1); });
 
-		pointer data() { return reinterpret_cast<pointer>(internal_buffer_); };
-		const_pointer data() const { return reinterpret_cast<const_pointer>(internal_buffer_); }
+		pointer data() { return reinterpret_cast<pointer>(allocator_.get_data()); };
+		const_pointer data() const { return reinterpret_cast<const_pointer>(allocator_.get_data()); }
 
 
 		// **** MODIFIERS **** */
@@ -159,13 +184,12 @@ namespace memory
 		reallocate(size_type new_capacity)
 	{
 		size_type original_capacity = capacity_;
-		void* original_ptr = internal_buffer_;
 
 		capacity_ = new_capacity;
-		internal_buffer_ = allocator.reallocate(original_ptr, capacity_);
+		allocator_.reallocate(capacity_);
 
 		return reinterpret_cast<void*>(
-			reinterpret_cast<pointer>(internal_buffer_) + original_capacity);
+			reinterpret_cast<pointer>(allocator_.get_data()) + original_capacity);
 	}
 
 	template <typename DataType, typename AllocT>
@@ -179,7 +203,7 @@ namespace memory
 		else if (size() == capacity())
 			new_location = reinterpret_cast<pointer>(reallocate(static_cast<size_type>(GROWTH_RATE * capacity())));
 		else
-			new_location = reinterpret_cast<pointer>(internal_buffer_) + size_;
+			new_location = reinterpret_cast<pointer>(allocator_.get_data()) + size_;
 
 		++size_;
 		return new_location;
@@ -211,13 +235,13 @@ namespace memory
 	}
 
 	template <typename DataType, typename AllocT>
-	vector<DataType, AllocT>::vector(size_type initial_capacity) : capacity_(0), size_(0), internal_buffer_(nullptr)
+	vector<DataType, AllocT>::vector(size_type initial_capacity) : capacity_(0), size_(0)
 	{
 		reserve(initial_capacity);
 	}
 
 	template<typename DataType, typename AllocT>
-	inline memory::vector<DataType, AllocT>::vector(const std::initializer_list<value_type>& v) : capacity_(0), size_(0), internal_buffer_(nullptr)
+	inline memory::vector<DataType, AllocT>::vector(const std::initializer_list<value_type>& v) : capacity_(0), size_(0)
 	{
 		reserve(v.size());
 		for (auto& val : v)
@@ -418,7 +442,7 @@ namespace memory
 	{
 		std::swap(this->size_, other.size_);
 		std::swap(this->capacity_, other.capacity_);
-		std::swap(this->internal_buffer_, other.internal_buffer_);
+		std::swap(this->allocator_, other.allocator_);
 	}
 
 	template <typename DataType, typename AllocT>
@@ -428,7 +452,7 @@ namespace memory
 		for (auto& iter : *this)
 			iter.~value_type();
 
-		allocator.deallocate(internal_buffer_, capacity_);
+		allocator_.deallocate(capacity_);
 		memset(this, 0, sizeof this);
 	}
 

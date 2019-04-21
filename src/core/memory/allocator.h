@@ -38,36 +38,44 @@ namespace memory
 	template <typename Val, typename STraits = DefaultSizeTraits, typename Alloc = HeapAllocation<typename STraits::size_type>>
 	class allocator
 	{
+	private:
+		void* ptr_;
+
 	public:
 		DECLARE_STANDARD_TYPEDEFS(Val)
 
 		typedef typename STraits::size_type size_type;
 		typedef typename STraits::difference_type difference_type;
 
-		constexpr allocator() noexcept = default;
+		constexpr allocator() noexcept : ptr_(nullptr) {}
 		USE_DEFAULT_COPY_SEMANTICS(allocator);
 		USE_DEFAULT_MOVE_SEMANTICS(allocator);
 		~allocator() = default;
 
 		void* allocate(size_type count)
 		{
-			return Alloc::Allocate(count * sizeof(value_type));
+			ptr_ = Alloc::Allocate(count * sizeof(value_type));
+			return ptr_;
 		}
 
-		void* reallocate(void* ptr, size_type count)
+		void* reallocate(size_type count)
 		{
-			return Alloc::Reallocate(ptr, count * sizeof(value_type));
+			ptr_ = Alloc::Reallocate(ptr_, count * sizeof(value_type));
+			return ptr_;
 		}
 
-		void deallocate(void* ptr, const size_type)
+		void deallocate(const size_type)
 		{
-			Alloc::Deallocate(ptr);
+			Alloc::Deallocate(ptr_);
+			ptr_ = nullptr;
 		}
 
 		size_type max_size() const noexcept
 		{
 			return (static_cast<size_type>(-1) / sizeof(value_type));
 		}
+
+		MUT_AND_CONST_OF_TYPE(void*, void const*, get_data(), { return ptr_; })
 	};
 #endif
 }
